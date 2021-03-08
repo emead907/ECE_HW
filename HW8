@@ -1,0 +1,61 @@
+module mux2to1 (i0, i1, s, y);
+  input i0, i1, s;
+  output y;
+  
+  always @(i0,i1, s) begin
+    y = (~s & i0) | (s & i1);
+   end
+endmodule
+  
+ module mux4to1 (x0, x1, x2, x3, s0, s1, y);
+  input x0, x1, x2, x3, s0, s1;
+  output reg y;
+  wire y0, y1;
+  
+  mux2to1 mux1 (x0, x1, s0, y0);
+  mux2to1 mux2 (x2, x3, s0, y1);
+  mux2to1 mux3 (y0, y1, s1, y);
+ endmodule
+ 
+ //part A
+ 
+module mux8to1 (x0, x1, x2, x3, x4, x5, x6, x7, s0, s1, s2, y);
+  input x0, x1, x2, x3, x4, x5, x6, x7, s0, s1, s2;
+  output reg y;
+  wire y0, y1;
+  
+  mux4to1 mux01 (x0, x1, x2, x3, s0, s1, y0);
+  mux4to1 mux02 (x4, x5, x6, x7, s0, s1, y1);
+  mux2to1 mux03 (y0, y1, s2, y);
+ endmodule
+ 
+ //part B
+ 
+ module mux8to1_tb();
+  reg x0_tb, x1_tb, x2_tb, x3_tb, x4_tb, x5_tb, x6_tb, x7_tb, s0_tb, s1_tb, s2_tb;
+  wire y_tb;
+  
+    mux8to1 mux8to1_tb(x0_tb, x1_tb, x2_tb, x3_tb, x4_tb, x5_tb, x6_tb, x7_tb, s0_tb, s1_tb, s2_tb, y_tb);
+  
+    initial begin
+        x0_tb = 0;
+        x1_tb = 0;
+        x2_tb = 0;
+        x3_tb = 0;
+        x4_tb = 0;
+        x5_tb = 0;
+        x6_tb = 0;
+        x7_tb = 0;
+        s0_tb = 1;
+        s1_tb = 0;
+        s2_tb = 1;
+    #10 x5_tb = 1;
+     end
+ endmodule
+      
+      
+      
+      
+      
+      
+  
